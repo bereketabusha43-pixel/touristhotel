@@ -1,0 +1,16 @@
+<div class="card offer-card h-100">
+    {% if offer.image %}
+    <img src="{{ offer.image.url }}" class="card-img-top" alt="{{ offer.title }}" loading="lazy">
+    {% endif %}
+    <div class="card-body">
+        <span class="badge bg-gold mb-2">{{ offer.get_offer_type_display }}</span>
+        {% if offer.discount_percent %}<span class="badge bg-danger mb-2">{{ offer.discount_percent }}% OFF</span>{% endif %}
+        <h5 class="card-title">{{ offer.title }}</h5>
+        <p class="card-text">{{ offer.short_description|default:offer.description|truncatechars:120 }}</p>
+        {% if offer.valid_until %}<p class="small text-muted">Valid until {{ offer.valid_until|date:"M d, Y" }}</p>{% endif %}
+    </div>
+    <div class="card-footer">
+        <a href="{% url 'home:offer_detail' offer.slug %}" class="btn btn-outline-primary btn-sm">View Offer</a>
+        <a href="{% url 'booking:search' %}" class="btn btn-gold btn-sm">Book Now</a>
+    </div>
+</div>

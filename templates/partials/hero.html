@@ -1,0 +1,63 @@
+{% load static %}
+{% load static %}
+{% if slides %}
+<section class="hero-section" aria-label="Hero slider">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000">
+        <div class="carousel-inner">
+            {% for slide in slides %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="hero-slide" style="background-image: url('{% if slide.image %}{{ slide.image.url }}{% else %}{% static 'images/hero-default.jpg' %}{% endif %}');">
+                    <div class="hero-overlay"></div>
+                    <div class="container hero-content">
+                        <span class="hero-badge"><i class="bi bi-star-fill me-1"></i> {{ site_settings.star_rating }}-Star Luxury Hotel</span>
+                        <h1 class="hero-title">{{ slide.title }}</h1>
+                        <div class="hero-gold-line"></div>
+                        {% if slide.subtitle %}<p class="hero-subtitle">{{ slide.subtitle }}</p>{% endif %}
+                        <div class="hero-cta-group">
+                            {% if slide.cta_text %}
+                            <a href="{{ slide.cta_link }}" class="btn btn-gold btn-lg">{{ slide.cta_text }}</a>
+                            {% endif %}
+                            <a href="{% url 'rooms:list' %}" class="btn-hero-outline">Explore Rooms</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if slides|length > 1 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        {% endif %}
+    </div>
+    <a href="#booking" class="hero-scroll-indicator text-decoration-none" data-scroll-to="booking" aria-label="Scroll to booking">
+        <span>Discover</span>
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    </a>
+</section>
+{% else %}
+<section class="hero-section hero-default">
+    <div class="hero-slide" style="background-image: url('{% static 'images/hero-default.jpg' %}');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <span class="hero-badge"><i class="bi bi-star-fill me-1"></i> {{ site_settings.star_rating }}-Star Luxury Hotel</span>
+            <h1 class="hero-title">Experience Luxury in the Heart of Arba Minch</h1>
+            <div class="hero-gold-line"></div>
+            <p class="hero-subtitle">Where Comfort Meets Nature</p>
+            <div class="hero-cta-group">
+                <a href="{% url 'booking:search' %}" class="btn btn-gold btn-lg">Book Your Stay</a>
+                <a href="{% url 'rooms:list' %}" class="btn-hero-outline">Explore Rooms</a>
+            </div>
+        </div>
+    </div>
+    <a href="#booking" class="hero-scroll-indicator text-decoration-none" data-scroll-to="booking" aria-label="Scroll to booking">
+        <span>Discover</span>
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    </a>
+</section>
+{% endif %}

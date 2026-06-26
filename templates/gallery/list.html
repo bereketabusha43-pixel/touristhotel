@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Gallery</h1>
+        <p class="lead">Explore our hotel through stunning imagery</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="gallery-filters mb-4">
+            <a href="{% url 'gallery:list' %}" class="btn btn-sm {% if not active_category %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+            {% for cat in categories %}
+            <a href="?category={{ cat.slug }}" class="btn btn-sm {% if active_category == cat.slug %}btn-primary{% else %}btn-outline-primary{% endif %}">{{ cat.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="row g-3 gallery-grid">
+            {% for image in images %}
+            <div class="col-6 col-md-4 col-lg-3">
+                {% include 'partials/gallery_card.html' %}
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p>No images found.</p></div>
+            {% endfor %}
+        </div>
+        {% include 'partials/pagination.html' %}
+    </div>
+</section>
+
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 text-center">
+                <img src="" id="lightboxImage" class="img-fluid" alt="">
+                <p id="lightboxCaption" class="text-white mt-2"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

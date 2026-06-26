@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Confirmed — {{ booking.reference }}{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="confirmation-card">
+                    <i class="bi bi-check-circle-fill text-success confirmation-icon"></i>
+                    <h1>Booking Confirmed!</h1>
+                    <p class="lead">Thank you, {{ booking.guest.full_name }}. Your reservation has been received.</p>
+                    <div class="reference-box">
+                        <span class="text-muted">Booking Reference</span>
+                        <h2 class="text-primary">{{ booking.reference }}</h2>
+                    </div>
+                    <div class="row g-4 mt-4 text-start">
+                        <div class="col-md-6">
+                            <h5>Guest Details</h5>
+                            <p>{{ booking.guest.full_name }}<br>{{ booking.guest.email }}<br>{{ booking.guest.phone }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Stay Details</h5>
+                            <p>
+                                <strong>Room:</strong> {{ booking.room.name }}<br>
+                                <strong>Check-in:</strong> {{ booking.check_in|date:"M d, Y" }}<br>
+                                <strong>Check-out:</strong> {{ booking.check_out|date:"M d, Y" }}<br>
+                                <strong>Nights:</strong> {{ booking.nights }}<br>
+                                <strong>Guests:</strong> {{ booking.adults }} adult(s){% if booking.children %}, {{ booking.children }} child(ren){% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="total-box mt-4">
+                        <strong>Total:</strong> ETB {{ booking.total_price|floatformat:0 }}
+                    </div>
+                    <p class="text-muted mt-3">A confirmation email will be sent to {{ booking.guest.email }}.</p>
+                    <a href="{% url 'home:index' %}" class="btn btn-gold mt-3">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

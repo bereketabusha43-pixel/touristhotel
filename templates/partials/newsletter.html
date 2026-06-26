@@ -1,0 +1,7 @@
+<form action="{% url 'contact:newsletter' %}" method="post" class="newsletter-form">
+    {% csrf_token %}
+    <div class="input-group">
+        <input type="email" name="email" class="form-control" placeholder="Your email address" required aria-label="Email for newsletter">
+        <button class="btn btn-gold" type="submit">Subscribe</button>
+    </div>
+</form>

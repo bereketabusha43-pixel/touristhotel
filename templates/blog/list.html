@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Blog & Travel Guides</h1>
+        <p class="lead">Stories, tips, and news from Arba Minch</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-8">{{ search_form.q }}</div>
+            <div class="col-md-3">{{ search_form.category }}</div>
+            <div class="col-md-1"><button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i></button></div>
+        </form>
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card blog-card h-100">
+                    {% if post.featured_image %}<img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2">{{ post.category.name }}</span>
+                        <h5><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h5>
+                        <p class="text-muted">{{ post.excerpt|truncatechars:120 }}</p>
+                        <p class="small text-muted">{{ post.published_at|date:"M d, Y" }} · {{ post.views }} views</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p>No articles found.</p></div>
+            {% endfor %}
+        </div>
+        {% include 'partials/pagination.html' %}
+    </div>
+</section>
+{% endblock %}

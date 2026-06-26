@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Conference & Meetings — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Conference & Meetings</h1>
+        <p class="lead">World-class facilities for your business events</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-4">
+            {% for hall in halls %}
+            <div class="col-md-6">
+                <div class="card conference-card h-100">
+                    {% if hall.main_image %}<img src="{{ hall.main_image.url }}" class="card-img-top" alt="{{ hall.name }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <h5>{{ hall.name }}</h5>
+                        <p class="text-muted">{{ hall.description|truncatechars:150 }}</p>
+                        <div class="hall-meta">
+                            <span><i class="bi bi-people"></i> {{ hall.capacity }} guests</span>
+                            <span><i class="bi bi-arrows-angle-expand"></i> {{ hall.size_sqm }} m²</span>
+                        </div>
+                        <p class="price-tag mt-2">ETB {{ hall.price_per_day|floatformat:0 }}/day</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'conference:detail' hall.slug %}" class="btn btn-outline-primary btn-sm">Details</a>
+                        <a href="{% url 'conference:booking_hall' hall.slug %}" class="btn btn-gold btn-sm">Inquire</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p>Conference facilities information coming soon.</p></div>
+            {% endfor %}
+        </div>
+        {% include 'partials/pagination.html' %}
+    </div>
+</section>
+{% endblock %}

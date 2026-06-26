@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tour.title }} — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" {% if tour.image %}style="background-image: url('{{ tour.image.url }}');"{% endif %}>
+    <div class="container">
+        <h1>{{ tour.title }}</h1>
+        {% if tour.location %}<p class="lead"><i class="bi bi-geo-alt"></i> {{ tour.location }}</p>{% endif %}
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="content-text">{{ tour.description|linebreaks }}</div>
+                {% if tour.get_includes_list %}
+                <h4 class="mt-4">What's Included</h4>
+                <ul class="includes-list">
+                    {% for item in tour.get_includes_list %}
+                    <li><i class="bi bi-check-circle text-primary"></i> {{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar-card">
+                    <h5>Tour Details</h5>
+                    {% if tour.duration %}<p><strong>Duration:</strong> {{ tour.duration }}</p>{% endif %}
+                    {% if tour.price %}<p><strong>Price:</strong> ETB {{ tour.price|floatformat:0 }}</p>{% endif %}
+                    <p><strong>Max Guests:</strong> {{ tour.max_guests }}</p>
+                    <a href="{% url 'contact:index' %}" class="btn btn-gold w-100 mt-3">Book This Experience</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

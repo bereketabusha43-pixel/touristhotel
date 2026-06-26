@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Inquiry — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero"><div class="container"><h1>Event Inquiry</h1></div></section>
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-gold btn-lg">Submit Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

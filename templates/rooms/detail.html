@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ room.name }} — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: url('{% if room.main_image %}{{ room.main_image.url }}{% elif room.category.category_type == 'executive' or room.category.category_type == 'family_suite' or room.category.category_type == 'presidential' %}{% static 'images/vip-room.jpg' %}{% else %}{% static 'images/rooms.jpg' %}{% endif %}');">
+    <div class="container">
+        <span class="badge bg-gold mb-2">{{ room.category.name }}</span>
+        <h1>{{ room.name }}</h1>
+        <p class="lead">Room {{ room.room_number }} · {{ room.size_sqm }}m² · {{ room.get_bed_type_display }}</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                {% if room.images.all %}
+                <div class="row g-2 mb-4 room-gallery">
+                    {% for img in room.images.all %}
+                    <div class="col-md-4">
+                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:room.name }}" class="img-fluid rounded" loading="lazy">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <h3>Description</h3>
+                <div class="content-text">{{ room.description|linebreaks }}</div>
+
+                {% if room.amenities.all %}
+                <h4 class="mt-4">Amenities</h4>
+                <div class="row g-3">
+                    {% for amenity in room.amenities.all %}
+                    <div class="col-md-4">
+                        <div class="amenity-item"><i class="bi {{ amenity.icon }}"></i> {{ amenity.name }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if room.policies %}
+                <h4 class="mt-4">Policies</h4>
+                <div class="content-text">{{ room.policies|linebreaks }}</div>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar-card sticky-top" style="top: 100px;">
+                    <div class="room-price-lg mb-3">
+                        <span class="price-amount">ETB {{ room.price_per_night|floatformat:0 }}</span>
+                        <span class="price-period">/ night</span>
+                    </div>
+                    <ul class="room-details-list">
+                        <li><i class="bi bi-people"></i> Max {{ room.max_occupancy }} guests</li>
+                        <li><i class="bi bi-arrows-angle-expand"></i> {{ room.size_sqm }} m²</li>
+                        <li><i class="bi bi-moon-stars"></i> {{ room.get_bed_type_display }}</li>
+                        {% if room.has_lake_view %}<li><i class="bi bi-water"></i> Lake View</li>{% endif %}
+                        {% if room.has_balcony %}<li><i class="bi bi-door-open"></i> Balcony</li>{% endif %}
+                    </ul>
+                    <a href="{% url 'booking:create' room.slug %}" class="btn btn-gold w-100 mt-3">Book This Room</a>
+                    <a href="{% url 'rooms:compare' %}?room={{ room.slug }}" class="btn btn-outline-primary w-100 mt-2">Compare</a>
+                </div>
+            </div>
+        </div>
+
+        {% if related_rooms %}
+        <h3 class="mt-5">Similar Rooms</h3>
+        <div class="row g-4">
+            {% for related in related_rooms %}
+            <div class="col-md-4">{% include 'partials/room_card.html' with room=related %}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

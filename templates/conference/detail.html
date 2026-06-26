@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hall.name }} — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" {% if hall.main_image %}style="background-image: url('{{ hall.main_image.url }}');"{% endif %}>
+    <div class="container">
+        <h1>{{ hall.name }}</h1>
+        <p class="lead">Capacity: {{ hall.capacity }} · {{ hall.size_sqm }} m²</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="content-text">{{ hall.description|linebreaks }}</div>
+                {% if hall.get_equipment_list %}
+                <h4 class="mt-4">Equipment & Facilities</h4>
+                <ul class="includes-list">
+                    {% for item in hall.get_equipment_list %}
+                    <li><i class="bi bi-check-circle text-primary"></i> {{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar-card">
+                    <h5>Pricing</h5>
+                    <p><strong>Full Day:</strong> ETB {{ hall.price_per_day|floatformat:0 }}</p>
+                    {% if hall.price_per_half_day %}<p><strong>Half Day:</strong> ETB {{ hall.price_per_half_day|floatformat:0 }}</p>{% endif %}
+                    <a href="{% url 'conference:booking_hall' hall.slug %}" class="btn btn-gold w-100 mt-3">Request Booking</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Compare Rooms — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Compare Rooms</h1>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        {% if rooms %}
+        <div class="table-responsive">
+            <table class="table table-bordered compare-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        {% for room in rooms %}
+                        <th>{{ room.name }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Category</td>{% for room in rooms %}<td>{{ room.category.name }}</td>{% endfor %}</tr>
+                    <tr><td>Price/Night</td>{% for room in rooms %}<td>ETB {{ room.price_per_night|floatformat:0 }}</td>{% endfor %}</tr>
+                    <tr><td>Size</td>{% for room in rooms %}<td>{{ room.size_sqm }} m²</td>{% endfor %}</tr>
+                    <tr><td>Bed Type</td>{% for room in rooms %}<td>{{ room.get_bed_type_display }}</td>{% endfor %}</tr>
+                    <tr><td>Max Occupancy</td>{% for room in rooms %}<td>{{ room.max_occupancy }}</td>{% endfor %}</tr>
+                    <tr><td>Lake View</td>{% for room in rooms %}<td>{% if room.has_lake_view %}<i class="bi bi-check-circle text-success"></i>{% else %}—{% endif %}</td>{% endfor %}</tr>
+                    <tr><td>Balcony</td>{% for room in rooms %}<td>{% if room.has_balcony %}<i class="bi bi-check-circle text-success"></i>{% else %}—{% endif %}</td>{% endfor %}</tr>
+                    <tr><td></td>{% for room in rooms %}<td><a href="{% url 'booking:create' room.slug %}" class="btn btn-gold btn-sm">Book</a></td>{% endfor %}</tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center">Select rooms to compare from the <a href="{% url 'rooms:list' %}">rooms page</a>.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

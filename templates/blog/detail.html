@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" {% if post.featured_image %}style="background-image: url('{{ post.featured_image.url }}');"{% endif %}>
+    <div class="container">
+        <span class="badge bg-gold mb-2">{{ post.category.name }}</span>
+        <h1>{{ post.title }}</h1>
+        <p class="lead">{{ post.published_at|date:"F d, Y" }} · by {{ post.author }}</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <article class="blog-content">{{ post.content|safe }}</article>
+            </div>
+        </div>
+        {% if related_posts %}
+        <h3 class="mt-5 text-center">Related Articles</h3>
+        <div class="row g-4 mt-3">
+            {% for related in related_posts %}
+            <div class="col-md-4">
+                <div class="card blog-card h-100">
+                    {% if related.featured_image %}<img src="{{ related.featured_image.url }}" class="card-img-top" alt="{{ related.title }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <h5><a href="{% url 'blog:detail' related.slug %}">{{ related.title }}</a></h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

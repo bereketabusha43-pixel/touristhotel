@@ -1,0 +1,22 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "name": "{{ site_settings.hotel_name }}",
+  "description": "{{ site_settings.description|default:site_settings.tagline|truncatechars:200 }}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "telephone": "{{ site_settings.phone }}",
+  "email": "{{ site_settings.email }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ site_settings.address }}",
+    "addressLocality": "Arba Minch",
+    "addressCountry": "ET"
+  },
+  "starRating": {
+    "@type": "Rating",
+    "ratingValue": "{{ site_settings.star_rating }}"
+  },
+  "priceRange": "$$$"
+}
+</script>

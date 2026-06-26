@@ -1,0 +1,33 @@
+{% load static %}
+<div class="card room-card h-100">
+    <div class="room-card-img">
+        {% if room.main_image %}
+        <img src="{{ room.main_image.url }}" alt="{{ room.name }}" loading="lazy" class="card-img-top">
+        {% elif room.category.category_type == 'executive' or room.category.category_type == 'family_suite' or room.category.category_type == 'presidential' %}
+        <img src="{% static 'images/vip-room.jpg' %}" alt="{{ room.name }}" loading="lazy" class="card-img-top">
+        {% else %}
+        <img src="{% static 'images/rooms.jpg' %}" alt="{{ room.name }}" loading="lazy" class="card-img-top">
+        {% endif %}
+        {% if room.has_lake_view %}<span class="badge bg-accent">Lake View</span>{% endif %}
+    </div>
+    <div class="card-body">
+        <span class="room-category">{{ room.category.name }}</span>
+        <h5 class="card-title">{{ room.name }}</h5>
+        <p class="card-text text-muted">{{ room.short_description|truncatechars:100|default:room.description|truncatechars:100 }}</p>
+        <div class="room-meta">
+            <span><i class="bi bi-people"></i> {{ room.max_occupancy }}</span>
+            <span><i class="bi bi-arrows-angle-expand"></i> {{ room.size_sqm }}m²</span>
+            <span><i class="bi bi-moon-stars"></i> {{ room.get_bed_type_display }}</span>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <div class="room-price">
+            <span class="price-amount">ETB {{ room.price_per_night|floatformat:0 }}</span>
+            <span class="price-period">/ night</span>
+        </div>
+        <div>
+            <a href="{% url 'rooms:detail' room.slug %}" class="btn btn-outline-primary btn-sm">View</a>
+            <a href="{% url 'booking:create' room.slug %}" class="btn btn-gold btn-sm">Book</a>
+        </div>
+    </div>
+</div>

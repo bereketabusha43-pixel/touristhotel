@@ -1,0 +1,7 @@
+<div class="gallery-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-src="{% if image.image %}{{ image.image.url }}{% else %}{% load static %}{% static 'images/main-image.jpg' %}{% endif %}" data-caption="{{ image.caption|default:image.title }}">
+    <img src="{% if image.image %}{{ image.image.url }}{% else %}{% load static %}{% static 'images/main-image.jpg' %}{% endif %}" alt="{{ image.alt_text|default:image.title }}" loading="lazy">
+    <div class="gallery-overlay">
+        <i class="bi bi-zoom-in"></i>
+        <span>{{ image.title }}</span>
+    </div>
+</div>

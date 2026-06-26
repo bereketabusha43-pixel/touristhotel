@@ -1,0 +1,55 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <h5 class="footer-title">{{ site_settings.hotel_name }}</h5>
+                <p class="text-muted-light">{{ site_settings.tagline }}</p>
+                <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>{{ site_settings.address }}</p>
+                <p class="mb-1"><i class="bi bi-telephone me-2"></i><a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
+                <p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
+                {% if site_settings.whatsapp %}
+                <p class="mb-1"><i class="bi bi-whatsapp me-2"></i><a href="https://wa.me/{{ site_settings.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a></p>
+                {% endif %}
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h6 class="footer-heading">Explore</h6>
+                <ul class="footer-links">
+                    <li><a href="{% url 'rooms:list' %}">Rooms & Suites</a></li>
+                    <li><a href="{% url 'restaurant:index' %}">Dining</a></li>
+                    <li><a href="{% url 'conference:index' %}">Conference</a></li>
+                    <li><a href="{% url 'gallery:list' %}">Gallery</a></li>
+                    <li><a href="{% url 'home:experiences' %}">Experiences</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h6 class="footer-heading">Information</h6>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home:about' %}">About Us</a></li>
+                    <li><a href="{% url 'blog:list' %}">Blog</a></li>
+                    <li><a href="{% url 'contact:index' %}">Contact</a></li>
+                    <li><a href="{% url 'booking:search' %}">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <h6 class="footer-heading">Newsletter</h6>
+                {% include 'partials/newsletter.html' %}
+                <div class="social-links mt-3">
+                    {% for social in social_links %}
+                    <a href="{{ social.url }}" target="_blank" rel="noopener" aria-label="{{ social.get_platform_display }}">
+                        <i class="bi bi-{{ social.platform }}"></i>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 small">&copy; {% now "Y" %} {{ site_settings.hotel_name }}. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0 small">Arba Minch, Southern Ethiopia</p>
+            </div>
+        </div>
+    </div>
+</footer>

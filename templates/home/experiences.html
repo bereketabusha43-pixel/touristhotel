@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Experiences — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Experiences</h1>
+        <p class="lead">Discover the natural wonders and cultural treasures of Arba Minch</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-4">
+            {% for tour in tours %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card experience-card h-100">
+                    {% if tour.image %}<img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.title }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <h5>{{ tour.title }}</h5>
+                        <p class="text-muted">{{ tour.short_description|truncatechars:120 }}</p>
+                        <div class="tour-meta">
+                            {% if tour.duration %}<span><i class="bi bi-clock"></i> {{ tour.duration }}</span>{% endif %}
+                            {% if tour.location %}<span><i class="bi bi-geo-alt"></i> {{ tour.location }}</span>{% endif %}
+                        </div>
+                        {% if tour.price %}<p class="price-tag mt-2">From ETB {{ tour.price|floatformat:0 }}</p>{% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'home:experience_detail' tour.slug %}" class="btn btn-gold btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p>No experiences available at the moment.</p></div>
+            {% endfor %}
+        </div>
+        {% include 'partials/pagination.html' %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Your Stay — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Book Your Stay</h1>
+        <p class="lead">Find available rooms for your dates</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="booking-widget mb-5">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Check-in</label>
+                    {{ search_form.check_in }}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Check-out</label>
+                    {{ search_form.check_out }}
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Adults</label>
+                    {{ search_form.adults }}
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Children</label>
+                    {{ search_form.children }}
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+        </div>
+
+        {% if available_rooms is not None %}
+        <h3 class="mb-4">Available Rooms</h3>
+        <div class="row g-4">
+            {% for room in available_rooms %}
+            <div class="col-md-6 col-lg-4">
+                {% include 'partials/room_card.html' %}
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No rooms available for the selected dates. Please try different dates.</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

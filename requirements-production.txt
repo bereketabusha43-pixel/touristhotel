@@ -1,0 +1,3 @@
+# Production extras — install on PythonAnywhere only
+-r requirements.txt
+mysqlclient==2.2.7

@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar" aria-label="Main navigation">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home:index' %}">
+            <span class="brand-text">{{ site_settings.hotel_name }}</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home:index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'rooms:list' %}">Rooms & Suites</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'restaurant:index' %}">Dining</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'conference:index' %}">Conference</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'conference:events' %}">Wedding & Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'gallery:list' %}">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'home:experiences' %}">Experiences</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'blog:list' %}">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'home:about' %}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact:index' %}">Contact</a></li>
+            </ul>
+            <a href="{% url 'booking:search' %}" class="btn btn-gold btn-sm ms-lg-3">Book Now</a>
+        </div>
+    </div>
+</nav>

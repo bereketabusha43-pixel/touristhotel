@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us — {{ site_settings.hotel_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p class="lead">We'd love to hear from you</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <div class="contact-info">
+                    <h4>Get in Touch</h4>
+                    <p><i class="bi bi-geo-alt me-2"></i>{{ site_settings.address }}</p>
+                    <p><i class="bi bi-telephone me-2"></i><a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></p>
+                    <p><i class="bi bi-envelope me-2"></i><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>
+                    {% if site_settings.whatsapp %}
+                    <p><i class="bi bi-whatsapp me-2"></i><a href="https://wa.me/{{ site_settings.whatsapp }}">WhatsApp</a></p>
+                    {% endif %}
+                    {% if site_settings.emergency_contact %}
+                    <p><i class="bi bi-exclamation-triangle me-2"></i>Emergency: {{ site_settings.emergency_contact }}</p>
+                    {% endif %}
+                    {% if site_settings.business_hours %}
+                    <h5 class="mt-4">Business Hours</h5>
+                    <div class="content-text">{{ site_settings.business_hours|linebreaks }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-gold btn-lg">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if site_settings.google_maps_embed %}
+<section class="map-section">{{ site_settings.google_maps_embed|safe }}</section>
+{% else %}
+<section class="map-section">
+    <div class="map-placeholder text-center py-5">
+        <i class="bi bi-geo-alt map-icon"></i>
+        <h4>{{ site_settings.hotel_name }}</h4>
+        <p>{{ site_settings.address }}</p>
+        <a href="https://maps.google.com/?q=Arba+Minch+Ethiopia" target="_blank" rel="noopener" class="btn btn-gold">Get Directions</a>
+    </div>
+</section>
+{% endif %}
+
+{% if faqs %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ faq.id }}">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div id="faq{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">{{ faq.answer }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

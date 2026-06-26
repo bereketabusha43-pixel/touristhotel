@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}page-home{% endblock %}
+{% block title %}{{ site_settings.hotel_name }} — Luxury Hotel in Arba Minch, Ethiopia{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% include 'partials/hero.html' with slides=hero_slides %}
+
+<!-- Booking Widget -->
+<section class="booking-widget-section" id="booking">
+    <div class="container">
+        {% include 'partials/booking_widget.html' %}
+    </div>
+</section>
+
+<!-- Animated Stats Bar -->
+<section class="stats-bar reveal-scale">
+    <div class="container">
+        <div class="row g-4 stagger-children reveal">
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <i class="bi bi-door-open stat-icon"></i>
+                    <span class="stat-number" data-count="50" data-suffix="+">0</span>
+                    <span class="stat-label">Luxury Rooms</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <i class="bi bi-star-fill stat-icon"></i>
+                    <span class="stat-number" data-count="{{ site_settings.star_rating }}" data-suffix="">0</span>
+                    <span class="stat-label">Star Rating</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <i class="bi bi-award stat-icon"></i>
+                    <span class="stat-number" data-count="35" data-suffix="+">0</span>
+                    <span class="stat-label">Years of Excellence</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <i class="bi bi-people stat-icon"></i>
+                    <span class="stat-number" data-count="10000" data-suffix="+">0</span>
+                    <span class="stat-label">Happy Guests</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Marquee -->
+<div class="trust-marquee" aria-hidden="true">
+    <div class="marquee-track">
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Lake Chamo Views</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Award-Winning Dining</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Conference Facilities</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Airport Shuttle</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Nech Sar National Park</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Traditional Ethiopian Cuisine</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> 24/7 Concierge</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Lake Chamo Views</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Award-Winning Dining</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Conference Facilities</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Airport Shuttle</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Nech Sar National Park</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> Traditional Ethiopian Cuisine</span>
+        <span class="marquee-item"><i class="bi bi-check-circle-fill"></i> 24/7 Concierge</span>
+    </div>
+</div>
+
+<!-- Features -->
+{% if features %}
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Amenities</span>
+            <h2 class="section-title">Discover Our World</h2>
+            <p class="section-subtitle">Everything you need for an unforgettable stay</p>
+        </div>
+        <div class="row g-4 stagger-children">
+            {% for feature in features %}
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center h-100">
+                    {% if feature.image %}
+                    <div class="feature-img mb-3"><img src="{{ feature.image.url }}" alt="{{ feature.title }}" class="rounded" loading="lazy"></div>
+                    {% endif %}
+                    <div class="feature-icon"><i class="bi {{ feature.icon }}"></i></div>
+                    <h5>{{ feature.title }}</h5>
+                    <p class="text-muted">{{ feature.description|truncatechars:100 }}</p>
+                    {% if feature.link %}<a href="{{ feature.link }}" class="feature-link">Learn More <i class="bi bi-arrow-right"></i></a>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Rooms -->
+{% if featured_rooms %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Accommodations</span>
+            <h2 class="section-title">Luxury Rooms & Suites</h2>
+            <p class="section-subtitle">Elegant accommodations with stunning views</p>
+        </div>
+        <div class="row g-4 stagger-children">
+            {% for room in featured_rooms %}
+            <div class="col-md-6 col-lg-3">
+                {% include 'partials/room_card.html' %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5 reveal">
+            <a href="{% url 'rooms:list' %}" class="btn btn-outline-primary btn-lg">View All Rooms <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Experiences -->
+{% if tour_packages %}
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Adventures</span>
+            <h2 class="section-title">Unforgettable Experiences</h2>
+            <p class="section-subtitle">Explore the natural wonders of Southern Ethiopia</p>
+        </div>
+        <div class="row g-4 stagger-children">
+            {% for tour in tour_packages %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card experience-card h-100">
+                    <div class="overflow-hidden">
+                        {% if tour.image %}
+                        <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.title }}" loading="lazy">
+                        {% else %}
+                        <img src="{% static 'images/nature.jpg' %}" class="card-img-top" alt="{{ tour.title }}" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5>{{ tour.title }}</h5>
+                        <p class="text-muted">{{ tour.short_description|truncatechars:80 }}</p>
+                        {% if tour.price %}<p class="price-tag">From ETB {{ tour.price|floatformat:0 }}</p>{% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'home:experience_detail' tour.slug %}" class="btn btn-outline-primary btn-sm">Explore <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Parallax CTA Banner -->
+<section class="cta-banner reveal-scale">
+    <div class="cta-shine"></div>
+    <div class="container position-relative" style="z-index:2;">
+        <span class="section-eyebrow">Your Escape Awaits</span>
+        <h2 class="section-title mb-3">Where Comfort Meets Nature</h2>
+        <p class="section-subtitle mb-4 mx-auto" style="max-width:600px;">Nestled between the lakes of the Great Rift Valley, Arba Minch Tourist Hotel offers a sanctuary of luxury amid Ethiopia's most breathtaking landscapes.</p>
+        <a href="{% url 'booking:search' %}" class="btn btn-gold btn-lg me-2">Book Your Stay</a>
+        <a href="{% url 'home:experiences' %}" class="btn btn-hero-outline btn-lg">Explore Tours</a>
+    </div>
+</section>
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section-padding bg-primary-dark text-white">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow" style="color:var(--gold);">Testimonials</span>
+            <h2 class="section-title text-white">Guest Reviews</h2>
+            <p class="section-subtitle text-white-50">What our guests say about us</p>
+        </div>
+        <div id="testimonialCarousel" class="carousel slide reveal" data-bs-ride="carousel" data-bs-interval="7000">
+            <div class="carousel-inner">
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="testimonial-quote text-center">"</div>
+                            {% include 'partials/testimonial_card.html' %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if testimonials|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Special Offers -->
+{% if offers %}
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Exclusive</span>
+            <h2 class="section-title">Special Offers</h2>
+            <p class="section-subtitle">Exclusive deals for your perfect getaway</p>
+        </div>
+        <div class="row g-4 stagger-children">
+            {% for offer in offers %}
+            <div class="col-md-4">
+                {% include 'partials/offer_card.html' %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Awards -->
+{% if awards %}
+<section class="section-padding bg-light">
+    <div class="container text-center">
+        <div class="section-header reveal">
+            <span class="section-eyebrow">Recognition</span>
+            <h2 class="section-title">Awards & Recognition</h2>
+        </div>
+        <div class="row g-4 mt-3 justify-content-center stagger-children">
+            {% for award in awards %}
+            <div class="col-6 col-md-2">
+                <div class="award-item">
+                    {% if award.image %}<img src="{{ award.image.url }}" alt="{{ award.title }}" loading="lazy">{% else %}
+                    <i class="bi bi-trophy award-icon"></i>{% endif %}
+                    <p class="small mt-2">{{ award.title }}</p>
+                    <span class="text-muted small">{{ award.year }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest News -->
+{% if latest_posts %}
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Journal</span>
+            <h2 class="section-title">Latest News</h2>
+        </div>
+        <div class="row g-4 stagger-children">
+            {% for post in latest_posts %}
+            <div class="col-md-4">
+                <div class="card blog-card h-100">
+                    {% if post.featured_image %}<img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2">{{ post.category.name }}</span>
+                        <h5><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h5>
+                        <p class="text-muted">{{ post.excerpt|truncatechars:100 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4 reveal">
+            <a href="{% url 'blog:list' %}" class="btn btn-outline-primary">Read All Articles</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Gallery -->
+{% if gallery_images %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="section-header text-center reveal">
+            <span class="section-eyebrow">Visual Journey</span>
+            <h2 class="section-title">Gallery</h2>
+            <p class="section-subtitle">A glimpse into our world</p>
+        </div>
+        <div class="row g-2 gallery-grid">
+            {% for image in gallery_images %}
+            <div class="col-6 col-md-3">
+                {% include 'partials/gallery_card.html' %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4 reveal">
+            <a href="{% url 'gallery:list' %}" class="btn btn-outline-primary">View Full Gallery</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Map -->
+<section class="map-section reveal">
+    <div class="container-fluid p-0">
+        {% if site_settings.google_maps_embed %}
+        {{ site_settings.google_maps_embed|safe }}
+        {% else %}
+        <div class="map-placeholder">
+            <div class="container text-center py-5">
+                <i class="bi bi-geo-alt map-icon"></i>
+                <h4>{{ site_settings.hotel_name }}</h4>
+                <p>{{ site_settings.address }}</p>
+                <a href="https://maps.google.com/?q=Arba+Minch+Ethiopia" target="_blank" rel="noopener" class="btn btn-gold">Get Directions</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section-padding newsletter-section">
+    <div class="container text-center position-relative" style="z-index:1;">
+        <div class="reveal">
+            <span class="section-eyebrow">Newsletter</span>
+            <h2 class="section-title">Stay Updated</h2>
+            <p class="section-subtitle">Subscribe for exclusive offers and travel inspiration</p>
+        </div>
+        <div class="row justify-content-center reveal">
+            <div class="col-md-6">
+                {% include 'partials/newsletter.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 text-center">
+                <img src="" id="lightboxImage" class="img-fluid" alt="">
+                <p id="lightboxCaption" class="text-white mt-2"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
